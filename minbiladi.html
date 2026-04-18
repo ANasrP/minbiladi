@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minbiladi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,500&family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="top-bar">
+  <div class="top-icons">
+    <button aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button aria-label="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    </button>
+    <button aria-label="Account">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    </button>
+    <button aria-label="Playlist" style="position:relative">
+      <svg viewBox="0 0 24 24"><polyline points="4 6 10 6 10 20 4 20"/><polyline points="14 4 20 4 20 18 14 18"/></svg>
+      <span class="notif-badge">0</span>
+    </button>
+  </div>
+
+  <a href="#" class="logo-block">
+    <div class="logo-main">
+      MINBILA<span style="position:relative">DI<span class="channel-box">media</span></span>
+    </div>
+    <div class="logo-tagline">Stories, culture &amp; heritage — من بلادي</div>
+  </a>
+</div>
+
+<!-- ═══ CATEGORY NAV ═══ -->
+<nav class="cat-nav">
+  <a href="#">ART</a>
+  <a href="#">LITERATURE</a>
+  <a href="#">MUSIC</a>
+  <a href="#">ARCHITECTURE</a>
+  <a href="#">DESIGN</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <img class="hero-img" id="hero-img"
+    src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=1900&q=85&auto=format&fit=crop"
+    alt="">
+
+  <span class="this-week">This Week</span>
+  <button class="plus-btn" aria-label="Add to playlist">+</button>
+
+  <button class="hero-arrow prev" id="hero-prev" aria-label="Previous">
+    <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
+  </button>
+  <button class="hero-arrow next" id="hero-next" aria-label="Next">
+    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+  </button>
+
+  <div class="hero-overlay">
+    <div class="overlay-play">
+      <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg>
+    </div>
+    <div class="overlay-quote" id="overlay-quote">"I'm exploring visions of our future."</div>
+    <div class="overlay-title" id="overlay-title">Liam Young: My Solutions Are Not Polite</div>
+    <div class="overlay-date" id="overlay-date">April 14, 2026</div>
+  </div>
+
+  <span class="hero-duration" id="hero-duration">42:34</span>
+</section>
+
+<!-- ═══ GRID (1 big + 2x2 small) ═══ -->
+<section class="grid-section" id="grid-section"></section>
+
+<!-- ═══ FEATURED SERIES ═══ -->
+<hr class="series-divider">
+<h2 class="series-heading">Featured series</h2>
+<section class="series-grid" id="series-grid"></section>
+
+<!-- Floating accessibility button -->
+<button class="a11y-btn" aria-label="Accessibility">∞</button>
+
+<!-- YouTube lightbox -->
+<div class="yt-modal" id="yt-modal" role="dialog" aria-modal="true">
+  <div class="yt-modal-inner">
+    <button class="yt-close" id="yt-close" aria-label="Close">✕</button>
+    <iframe id="yt-frame" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script src="minbiladi.js" defer></script>
+</body>
+</html>
