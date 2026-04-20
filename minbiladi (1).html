@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MINBILADI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --red: #e3261e;
+    --orange: #ff7a00;
+    --ink: #111;
+    --bg: #ffffff;
+    --thumb-label: #1a1a1a;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', 'Noto Naskh Arabic', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body{
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  .page{
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ===== Header ===== */
+  .masthead{
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .masthead .kicker{
+    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .logo{
+    font-family: 'VT323', monospace;
+    font-weight: 400;
+    color: var(--red);
+    font-size: 44px;
+    letter-spacing: 1px;
+    line-height: 1;
+    transform: translateY(4px);
+  }
+
+  .tagline{
+    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 1.45;
+    margin-top: 22px;
+    color: var(--ink);
+  }
+
+  /* ===== Nav ===== */
+  nav.tabs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 28px 0 22px;
+    padding: 0 4px;
+  }
+
+  nav.tabs a{
+    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 4px;
+    position: relative;
+    transition: color .2s ease;
+  }
+
+  nav.tabs a:hover{ color: var(--orange); }
+
+  nav.tabs a.active::after{
+    content: "";
+    position: absolute;
+    right: -6px;
+    left: -6px;
+    bottom: -6px;
+    height: 3px;
+    background: var(--orange);
+  }
+
+  /* ===== Featured video ===== */
+  .featured{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .featured iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ===== Featured meta ===== */
+  .meta{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    padding: 16px 2px 0;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .meta .title{
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .meta .title strong{ font-weight: 700; display: block; }
+  .meta .title em{ font-style: normal; font-weight: 600; }
+
+  .meta .share{
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding-top: 2px;
+  }
+  .meta .share a{
+    color: #333;
+    display: inline-flex;
+    width: 18px; height: 18px;
+    align-items: center;
+    justify-content: center;
+  }
+  .meta .share svg{ width: 16px; height: 16px; fill: currentColor; }
+
+  .blurb{
+    direction: ltr;
+    text-align: left;
+    padding: 10px 2px 0;
+    display: grid;
+    grid-template-columns: 1fr 110px;
+    gap: 20px;
+  }
+  .blurb p{
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #222;
+  }
+  .blurb .quote-line{ font-style: italic; margin-bottom: 8px; }
+  .blurb .read-more{ color: #000; text-decoration: underline; font-style: normal; }
+
+  .tags{
+    direction: ltr;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    padding-top: 2px;
+  }
+  .tags .label{ font-weight: 700; letter-spacing: .08em; margin-bottom: 6px; }
+  .tags a{ display: block; color: #777; text-decoration: none; font-size: 11px; line-height: 1.6; }
+  .tags a:hover{ color: var(--red); }
+
+  /* ===== Carousel ===== */
+  .carousel-wrap{
+    position: relative;
+    margin-top: 30px;
+    padding: 0 40px;
+    direction: ltr;
+  }
+
+  .carousel{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .card{
+    transition: transform .2s ease;
+  }
+  .card:hover{ transform: translateY(-2px); }
+
+  .card .cap{
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .card .cap .t{
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--thumb-label);
+    line-height: 1.15;
+  }
+  .card .cap .d{
+    font-family: 'Inter', sans-serif;
+    font-size: 6.5px;
+    color: #555;
+    margin-top: 2px;
+    line-height: 1.3;
+    letter-spacing: .02em;
+  }
+
+  .thumb{
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #000;
+  }
+  .thumb iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .thumb .series{
+    position: absolute;
+    left: 0; bottom: 0;
+    background: rgba(0,0,0,.75);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 6px;
+    padding: 2px 4px;
+    letter-spacing: .05em;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* ===== Carousel arrows ===== */
+  .arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: opacity .2s ease, transform .2s ease;
+    opacity: .85;
+    z-index: 10;
+  }
+  .arrow:hover{ opacity: 1; transform: translateY(-50%) scale(1.1); }
+  .arrow.left{ left: 2px; }
+  .arrow.right{ right: 2px; }
+  .arrow svg{ width: 32px; height: 32px; display: block; }
+
+  @media (max-width: 780px){
+    .masthead .kicker{ font-size: 18px; }
+    .logo{ font-size: 32px; }
+    .tagline{ font-size: 17px; }
+    nav.tabs a{ font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===== Header ===== -->
+  <header class="masthead">
+    <h1 class="kicker">قصص، ثقافة، وتراث</h1>
+    <span class="logo">MINBILADI</span>
+  </header>
+
+  <p class="tagline">منصة إعلامية رقمية تُسلّط الضوء كل من لا يحظى باهتمام الإعلام التقليدي</p>
+
+  <nav class="tabs" aria-label="Secties">
+    <a href="#">شعر</a>
+    <a href="#">موسيقى</a>
+    <a href="#">أدب</a>
+    <a href="#" class="active">فن</a>
+  </nav>
+
+  <!-- ===== Featured video (YouTube embed) ===== -->
+  <figure class="featured">
+    <iframe
+      src="https://www.youtube.com/embed/jNQXAC9IVRw"
+      title="Featured video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </figure>
+
+  <div class="meta">
+    <div class="title">
+      <strong>Paulina Olowska</strong>
+      <em>Art Is an Exchange</em>
+    </div>
+    <div class="share">
+      <a href="#" aria-label="Deel op Twitter">
+        <svg viewBox="0 0 24 24"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.5-1.3 1.8-2.2-.8.5-1.7.8-2.6 1-1.5-1.6-4-1.7-5.6-.2-.8.8-1.3 1.9-1.3 3 0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.1-4.3-.4.6-.6 1.3-.6 2 0 1.4.7 2.6 1.8 3.3-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.6 3.2 4-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.6 2 2.7 3.7 2.8-1.4 1.1-3.1 1.7-4.9 1.7H2c1.8 1.2 4 1.8 6.3 1.8 7.5 0 11.6-6.2 11.6-11.6v-.5c.8-.6 1.5-1.3 2.1-2.1z"/></svg>
+      </a>
+      <a href="#" aria-label="Deel op Facebook">
+        <svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.7V4.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.4V14h2.7v8h3.4z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="blurb">
+    <div>
+      <p class="quote-line">"I think being an artist is kind of like being a medium. One has to feel and smell and sense the moment of time."</p>
+      <p>Polish artist Paulina Olowska's work is shaped by local history, Slavic goddesses, and the environment surrounding her. <a href="#" class="read-more">Read more ...</a></p>
+    </div>
+    <div class="tags">
+      <div class="label">TAGS</div>
+      <a href="#">Art</a>
+      <a href="#">Paulina Olowska</a>
+    </div>
+  </div>
+
+  <!-- ===== Carousel ===== -->
+  <div class="carousel-wrap">
+    <button class="arrow left" aria-label="Vorige">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polyline points="15 6 9 12 15 18" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="carousel">
+      <article class="card">
+        <div class="cap">
+          <div class="t">Seen &amp; Selected by Katy Hessel</div>
+          <div class="d">From the author &amp; founder of The Great Women Artists podcast</div>
+        </div>
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="Katy Hessel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <span class="series">Series / 12 videos</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="cap">
+          <div class="t">Advice to the Young</div>
+          <div class="d">Advice from one generation of artists to the next</div>
+        </div>
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Advice to the Young" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <span class="series">Series / 96 videos</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="cap">
+          <div class="t">Artists on One Work</div>
+          <div class="d">Works of art explored by acclaimed artists</div>
+        </div>
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/9bZkp7q19f0" title="Artists on One Work" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <span class="series">Series / 26 videos</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="cap">
+          <div class="t">On Jorn Utzon</div>
+          <div class="d">Architects on Danish architect Jorn Utzon</div>
+        </div>
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" title="On Jorn Utzon" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <span class="series">Series / 75 videos</span>
+        </div>
+      </article>
+    </div>
+
+    <button class="arrow right" aria-label="Volgende">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Carousel rotation
+  const carousel = document.querySelector('.carousel');
+  document.querySelector('.arrow.right').addEventListener('click', () => {
+    carousel.appendChild(carousel.firstElementChild);
+  });
+  document.querySelector('.arrow.left').addEventListener('click', () => {
+    carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
+  });
+
+  // Active tab click
+  document.querySelectorAll('nav.tabs a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('nav.tabs a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
