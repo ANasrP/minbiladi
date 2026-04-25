@@ -1,422 +1,510 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="nl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MINBILADI</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MinBiladi — Videos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --red: #e3261e;
-    --orange: #ff7a00;
-    --ink: #111;
-    --bg: #ffffff;
-    --thumb-label: #1a1a1a;
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brand: #b5432a;
+    --brand-dark: #933522;
+    --bg: #faf8f5;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --text-muted: #888;
+    --border: #e8e4df;
+    --card-bg: #fff;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Source Sans 3', 'Segoe UI', sans-serif;
   }
 
-  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-  html, body{
+  body {
+    font-family: var(--serif);
     background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', 'Noto Naskh Arabic', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
 
-  body{
-    min-height: 100vh;
-    padding: 40px 20px 80px;
+  /* ─── NAV ─── */
+  .nav {
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 40px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 1000;
+  }
+  .nav-brand {
+    font-family: var(--serif); font-size: 30px; font-weight: 700;
+    color: var(--brand); letter-spacing: .5px; cursor: pointer;
+    transition: opacity .3s;
+  }
+  .nav-brand:hover { opacity: .8; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; width: 100%; height: 540px;
+    overflow: hidden; background: #111;
+  }
+  .hero-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .7s ease;
+  }
+  .hero:hover .hero-img { transform: scale(1.03); }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.55) 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; cursor: pointer;
+  }
+  .hero-tag {
+    font-family: var(--sans); font-size: 13px;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+  }
+  .hero-title {
+    font-size: 54px; font-weight: 700; color: #fff;
+    text-shadow: 0 2px 24px rgba(0,0,0,.45);
+    text-align: center; line-height: 1.12; max-width: 700px; padding: 0 20px;
+  }
+  .hero-play-btn {
+    margin-top: 6px; transition: transform .35s;
+  }
+  .hero:hover .hero-play-btn { transform: scale(1.12); }
+
+  .hero-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    opacity: .65; transition: opacity .3s; padding: 10px;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,.5));
+  }
+  .hero-arrow:hover { opacity: 1; }
+  .hero-arrow.l { left: 18px; }
+  .hero-arrow.r { right: 18px; }
+
+  /* ─── TABS ─── */
+  .tabs-wrap { text-align: center; padding: 36px 24px 0; }
+  .tabs {
+    display: inline-flex; gap: 32px;
+    font-family: var(--sans); font-size: 15px;
+  }
+  .tab {
+    cursor: pointer; padding-bottom: 6px;
+    color: #999; border-bottom: 2px solid transparent;
+    transition: all .3s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+  .tabs-sub {
+    font-family: var(--sans); font-size: 15px;
+    color: var(--text-muted); margin-top: 14px; line-height: 1.5;
   }
 
-  .page{
-    max-width: 720px;
-    margin: 0 auto;
+  /* ─── GRID ─── */
+  .grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 32px; padding: 36px 40px 64px;
+    max-width: 1220px; margin: 0 auto;
+  }
+  .card { cursor: pointer; transition: transform .3s; }
+  .card:hover { transform: translateY(-5px); }
+  .card-thumb {
+    position: relative; width: 100%; aspect-ratio: 3/2;
+    border-radius: 5px; overflow: hidden; background: #ddd;
+  }
+  .card-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s;
+  }
+  .card:hover .card-thumb img { transform: scale(1.06); }
+  .card-play {
+    position: absolute; bottom: 10px; right: 10px;
+    opacity: .8; transition: all .3s;
+  }
+  .card:hover .card-play { opacity: 1; transform: scale(1.1); }
+  .card-meta {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--sans); font-size: 12px;
+    color: var(--text-muted); margin-top: 12px; letter-spacing: .3px;
+  }
+  .card-title {
+    font-size: 19px; font-weight: 600; line-height: 1.35;
+    margin-top: 5px; color: var(--text);
+  }
+  .card-dur {
+    font-family: var(--sans); font-size: 13px;
+    color: #aaa; margin-top: 3px;
   }
 
-  /* ===== Header ===== */
-  .masthead{
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-start;
-    gap: 18px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ink);
+  /* ─── DETAIL ─── */
+  .detail { max-width: 860px; margin: 0 auto; padding: 0 40px 64px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--sans); font-size: 13px;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--text-muted); cursor: pointer;
+    background: none; border: none; padding: 24px 0;
+    transition: color .3s;
   }
+  .back-btn:hover { color: var(--brand); }
 
-  .masthead .kicker{
-    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
-    font-weight: 700;
-    font-size: 24px;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-
-  .logo{
-    font-family: 'VT323', monospace;
-    font-weight: 400;
-    color: var(--red);
-    font-size: 44px;
-    letter-spacing: 1px;
-    line-height: 1;
-    transform: translateY(4px);
-  }
-
-  .tagline{
-    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
-    font-weight: 700;
-    font-size: 21px;
-    line-height: 1.45;
-    margin-top: 22px;
-    color: var(--ink);
-  }
-
-  /* ===== Nav ===== */
-  nav.tabs{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 28px 0 22px;
-    padding: 0 4px;
-  }
-
-  nav.tabs a{
-    font-family: 'Playfair Display', 'Noto Naskh Arabic', serif;
-    font-weight: 700;
-    font-size: 26px;
-    color: var(--ink);
-    text-decoration: none;
-    padding-bottom: 4px;
-    position: relative;
-    transition: color .2s ease;
-  }
-
-  nav.tabs a:hover{ color: var(--orange); }
-
-  nav.tabs a.active::after{
-    content: "";
-    position: absolute;
-    right: -6px;
-    left: -6px;
-    bottom: -6px;
-    height: 3px;
-    background: var(--orange);
-  }
-
-  /* ===== Featured video ===== */
-  .featured{
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    overflow: hidden;
-  }
-
-  .featured iframe{
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-
-  /* ===== Featured meta ===== */
-  .meta{
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 18px;
-    padding: 16px 2px 0;
-    direction: ltr;
-    text-align: left;
-  }
-
-  .meta .title{
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.35;
-  }
-  .meta .title strong{ font-weight: 700; display: block; }
-  .meta .title em{ font-style: normal; font-weight: 600; }
-
-  .meta .share{
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    padding-top: 2px;
-  }
-  .meta .share a{
-    color: #333;
-    display: inline-flex;
-    width: 18px; height: 18px;
-    align-items: center;
-    justify-content: center;
-  }
-  .meta .share svg{ width: 16px; height: 16px; fill: currentColor; }
-
-  .blurb{
-    direction: ltr;
-    text-align: left;
-    padding: 10px 2px 0;
-    display: grid;
-    grid-template-columns: 1fr 110px;
-    gap: 20px;
-  }
-  .blurb p{
-    font-family: 'Inter', sans-serif;
-    font-size: 12.5px;
-    line-height: 1.55;
-    color: #222;
-  }
-  .blurb .quote-line{ font-style: italic; margin-bottom: 8px; }
-  .blurb .read-more{ color: #000; text-decoration: underline; font-style: normal; }
-
-  .tags{
-    direction: ltr;
-    text-align: left;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    padding-top: 2px;
-  }
-  .tags .label{ font-weight: 700; letter-spacing: .08em; margin-bottom: 6px; }
-  .tags a{ display: block; color: #777; text-decoration: none; font-size: 11px; line-height: 1.6; }
-  .tags a:hover{ color: var(--red); }
-
-  /* ===== Carousel ===== */
-  .carousel-wrap{
-    position: relative;
-    margin-top: 30px;
-    padding: 0 40px;
-    direction: ltr;
-  }
-
-  .carousel{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-
-  .card{
-    transition: transform .2s ease;
-  }
-  .card:hover{ transform: translateY(-2px); }
-
-  .card .cap{
-    text-align: center;
-    margin-bottom: 4px;
-  }
-  .card .cap .t{
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 10px;
-    color: var(--thumb-label);
-    line-height: 1.15;
-  }
-  .card .cap .d{
-    font-family: 'Inter', sans-serif;
-    font-size: 6.5px;
-    color: #555;
-    margin-top: 2px;
-    line-height: 1.3;
-    letter-spacing: .02em;
-  }
-
-  .thumb{
-    position: relative;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
+  .video-wrap {
+    position: relative; width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    border-radius: 5px; overflow: hidden;
     background: #000;
   }
-  .thumb iframe{
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-  .thumb .series{
-    position: absolute;
-    left: 0; bottom: 0;
-    background: rgba(0,0,0,.75);
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 6px;
-    padding: 2px 4px;
-    letter-spacing: .05em;
-    z-index: 2;
-    pointer-events: none;
+  .video-wrap iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0;
   }
 
-  /* ===== Carousel arrows ===== */
-  .arrow{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #1a1a1a;
-    transition: opacity .2s ease, transform .2s ease;
-    opacity: .85;
-    z-index: 10;
+  .detail-title {
+    font-size: 34px; font-weight: 700; line-height: 1.22;
+    margin-top: 26px;
   }
-  .arrow:hover{ opacity: 1; transform: translateY(-50%) scale(1.1); }
-  .arrow.left{ left: 2px; }
-  .arrow.right{ right: 2px; }
-  .arrow svg{ width: 32px; height: 32px; display: block; }
+  .detail-body {
+    font-family: var(--sans); font-size: 17px;
+    line-height: 1.78; color: #444; margin-top: 18px;
+  }
+  .detail-body p { margin-bottom: 16px; }
 
-  @media (max-width: 780px){
-    .masthead .kicker{ font-size: 18px; }
-    .logo{ font-size: 32px; }
-    .tagline{ font-size: 17px; }
-    nav.tabs a{ font-size: 20px; }
+  .detail-credits {
+    margin-top: 24px; padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-family: var(--sans); font-size: 14px;
+    color: var(--text-muted); line-height: 2;
+  }
+  .detail-credits strong { color: var(--text-light); font-weight: 600; }
+
+  .more-section {
+    padding-top: 36px; margin-top: 36px;
+    border-top: 1px solid var(--border); clear: both;
+  }
+  .more-title { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+  .more-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+  }
+
+  /* ─── FADE ─── */
+  .fade-in { animation: fadeUp .45s ease forwards; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center; padding: 32px 24px;
+    font-family: var(--sans); font-size: 13px;
+    color: #aaa; border-top: 1px solid var(--border);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 28px; padding: 32px 28px 56px; }
+    .more-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-title { font-size: 42px; }
+  }
+  @media (max-width: 768px) {
+    .nav { padding: 12px 16px; }
+    .nav-brand { font-size: 24px; }
+    .hero { height: 360px; }
+    .hero-title { font-size: 30px; padding: 0 50px; }
+    .hero-tag { font-size: 11px; }
+    .grid { grid-template-columns: 1fr; gap: 28px; padding: 28px 16px 48px; }
+    .more-grid { grid-template-columns: 1fr; }
+    .detail { padding: 0 16px 48px; }
+    .detail-title { font-size: 26px; }
+    .tabs { gap: 20px; font-size: 14px; }
+  }
+  @media (max-width: 480px) {
+    .hero { height: 280px; }
+    .hero-title { font-size: 24px; }
+    .detail-title { font-size: 22px; }
+    .card-title { font-size: 17px; }
   }
 </style>
 </head>
 <body>
 
-<div class="page">
+<!-- NAV -->
+<nav class="nav" id="top">
+  <div class="nav-brand" onclick="showHome()">MinBiladi</div>
+</nav>
 
-  <!-- ===== Header ===== -->
-  <header class="masthead">
-    <h1 class="kicker">قصص، ثقافة، وتراث</h1>
-    <span class="logo">MINBILADI</span>
-  </header>
-
-  <p class="tagline">منصة إعلامية رقمية تُسلّط الضوء كل من لا يحظى باهتمام الإعلام التقليدي</p>
-
-  <nav class="tabs" aria-label="Secties">
-    <a href="#">شعر</a>
-    <a href="#">موسيقى</a>
-    <a href="#">أدب</a>
-    <a href="#" class="active">فن</a>
-  </nav>
-
-  <!-- ===== Featured video (YouTube embed) ===== -->
-  <figure class="featured">
-    <iframe
-      src="https://www.youtube.com/embed/jNQXAC9IVRw"
-      title="Featured video"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
-  </figure>
-
-  <div class="meta">
-    <div class="title">
-      <strong>Paulina Olowska</strong>
-      <em>Art Is an Exchange</em>
+<!-- HOME VIEW -->
+<div id="homeView">
+  <!-- Hero -->
+  <div class="hero" id="heroSection">
+    <img class="hero-img" id="heroImg" alt="">
+    <div class="hero-overlay" onclick="openFeatured()">
+      <span class="hero-tag">Videos</span>
+      <h1 class="hero-title" id="heroTitle"></h1>
+      <div class="hero-play-btn">
+        <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="23" stroke="#fff" stroke-width="2" fill="rgba(0,0,0,.25)"/>
+          <polygon points="19,14 36,24 19,34" fill="#fff"/>
+        </svg>
+      </div>
     </div>
-    <div class="share">
-      <a href="#" aria-label="Deel op Twitter">
-        <svg viewBox="0 0 24 24"><path d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.5-1.3 1.8-2.2-.8.5-1.7.8-2.6 1-1.5-1.6-4-1.7-5.6-.2-.8.8-1.3 1.9-1.3 3 0 .3 0 .6.1.9-3.3-.2-6.2-1.7-8.1-4.3-.4.6-.6 1.3-.6 2 0 1.4.7 2.6 1.8 3.3-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.6 3.2 4-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1.5 1.6 2 2.7 3.7 2.8-1.4 1.1-3.1 1.7-4.9 1.7H2c1.8 1.2 4 1.8 6.3 1.8 7.5 0 11.6-6.2 11.6-11.6v-.5c.8-.6 1.5-1.3 2.1-2.1z"/></svg>
-      </a>
-      <a href="#" aria-label="Deel op Facebook">
-        <svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.7V4.2c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.4V14h2.7v8h3.4z"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <div class="blurb">
-    <div>
-      <p class="quote-line">"I think being an artist is kind of like being a medium. One has to feel and smell and sense the moment of time."</p>
-      <p>Polish artist Paulina Olowska's work is shaped by local history, Slavic goddesses, and the environment surrounding her. <a href="#" class="read-more">Read more ...</a></p>
-    </div>
-    <div class="tags">
-      <div class="label">TAGS</div>
-      <a href="#">Art</a>
-      <a href="#">Paulina Olowska</a>
-    </div>
-  </div>
-
-  <!-- ===== Carousel ===== -->
-  <div class="carousel-wrap">
-    <button class="arrow left" aria-label="Vorige">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <polyline points="15 6 9 12 15 18" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <button class="hero-arrow l" onclick="event.stopPropagation();prevHero()">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
-
-    <div class="carousel">
-      <article class="card">
-        <div class="cap">
-          <div class="t">Seen &amp; Selected by Katy Hessel</div>
-          <div class="d">From the author &amp; founder of The Great Women Artists podcast</div>
-        </div>
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="Katy Hessel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <span class="series">Series / 12 videos</span>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="cap">
-          <div class="t">Advice to the Young</div>
-          <div class="d">Advice from one generation of artists to the next</div>
-        </div>
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Advice to the Young" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <span class="series">Series / 96 videos</span>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="cap">
-          <div class="t">Artists on One Work</div>
-          <div class="d">Works of art explored by acclaimed artists</div>
-        </div>
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/9bZkp7q19f0" title="Artists on One Work" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <span class="series">Series / 26 videos</span>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="cap">
-          <div class="t">On Jorn Utzon</div>
-          <div class="d">Architects on Danish architect Jorn Utzon</div>
-        </div>
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" title="On Jorn Utzon" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <span class="series">Series / 75 videos</span>
-        </div>
-      </article>
-    </div>
-
-    <button class="arrow right" aria-label="Volgende">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <button class="hero-arrow r" onclick="event.stopPropagation();nextHero()">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
     </button>
   </div>
 
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <span class="tab active" onclick="setTab(this)">Latest</span>
+      <span class="tab" onclick="setTab(this)">Popular</span>
+      <span class="tab" onclick="setTab(this)">Originals</span>
+      <span class="tab" onclick="setTab(this)">Exclusives</span>
+    </div>
+    <p class="tabs-sub">Curated short documentaries and original MinBiladi productions exploring big ideas</p>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid" id="videoGrid"></div>
 </div>
 
+<!-- DETAIL VIEW -->
+<div id="detailView" style="display:none;">
+  <div class="detail fade-in">
+    <button class="back-btn" onclick="showHome()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to videos
+    </button>
+
+    <div class="video-wrap">
+      <iframe id="ytPlayer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <h1 class="detail-title" id="detailTitle"></h1>
+
+    <div class="detail-body" id="detailBody"></div>
+
+    <div class="detail-credits" id="detailCredits"></div>
+
+    <div class="more-section">
+      <h2 class="more-title">More videos</h2>
+      <div class="more-grid" id="moreGrid"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">© 2026 MinBiladi. All rights reserved.</footer>
+
 <script>
-  // Carousel rotation
-  const carousel = document.querySelector('.carousel');
-  document.querySelector('.arrow.right').addEventListener('click', () => {
-    carousel.appendChild(carousel.firstElementChild);
-  });
-  document.querySelector('.arrow.left').addEventListener('click', () => {
-    carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
-  });
+const VIDEOS = [
+  {
+    id: 1,
+    title: "Life Invisible",
+    subtitle: "Searching for superbug cures in the salt flats of the Atacama Desert",
+    category: "Science",
+    type: "Video",
+    duration: "26 minutes",
+    ytId: "3Dw7lFlyqmg",
+    thumb: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=530&fit=crop",
+    description: [
+      "Over the past century, antibiotics have revolutionised medicine, turning once-deadly infections into brief inconveniences. But as bacteria evolve in response to their use, these drugs are becoming less effective — with expert projections estimating antibiotic-resistant infections could account for 39 million deaths between 2024 and 2050.",
+      "In this film, a Chilean scientist searches for answers to the threat of antibiotic resistance in the driest place on Earth outside the polar regions — the Atacama Desert in Chile. The search for novel microbes is set against a landscape increasingly threatened by lithium extraction, revealing the tension between green technology and environmental preservation."
+    ],
+    directors: "Bettina Perut, Iván Osnovikoff",
+    producers: "Harri Grace, Paul King"
+  },
+  {
+    id: 2,
+    title: "The Wonders of Street Food",
+    subtitle: "A journey through the world's most vibrant food cultures and the people who sustain them",
+    category: "Culture",
+    type: "Video",
+    duration: "18 minutes",
+    ytId: "Q1y0Laem2mA",
+    thumb: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=530&fit=crop",
+    description: [
+      "Street food is more than sustenance — it is a living archive of cultural heritage, economic resilience, and human creativity. Across continents, millions of vendors transform simple ingredients into extraordinary dishes that define cities and communities.",
+      "This documentary travels from the night markets of Southeast Asia to the bustling corners of Latin American cities, exploring how street food preserves tradition while adapting to modernity. Through the stories of individual vendors, we discover how flavour and identity are passed down through generations."
+    ],
+    directors: "Amara Osei",
+    producers: "David Park, Liu Wei"
+  },
+  {
+    id: 3,
+    title: "Cathedral of Light",
+    subtitle: "The engineering marvel behind the world's most breathtaking stained glass",
+    category: "Engineering",
+    type: "Video",
+    duration: "12 minutes",
+    ytId: "YJg02ivYzSs",
+    thumb: "https://images.unsplash.com/photo-1548636800-e7e6a3c40bff?w=800&h=530&fit=crop",
+    description: [
+      "Sainte-Chapelle in Paris stands as one of humanity's greatest achievements in the marriage of art and engineering. Built in the 13th century, its walls are almost entirely composed of stained glass, creating an ethereal space that dissolves the boundary between the physical and the divine.",
+      "This film examines the extraordinary engineering solutions that made this architectural wonder possible, and how modern restoration technology is helping preserve it for future generations. Structural engineers and art historians reveal the secrets behind a building that has defied gravity and time for nearly 800 years."
+    ],
+    directors: "Jean-Pierre Moreau",
+    producers: "Sophie Laurent"
+  },
+  {
+    id: 4,
+    title: "How Paris Became Paris",
+    subtitle: "From Celtic village to world capital — a journey through 2,000 years of urban transformation",
+    category: "Cities",
+    type: "Video",
+    duration: "14 minutes",
+    ytId: "ScaJh0MJCOQ",
+    thumb: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=530&fit=crop",
+    description: [
+      "Paris as we know it today is the result of millennia of continuous transformation. From its origins as Lutetia, a modest settlement of the Parisii tribe on the banks of the Seine, to the grand metropolis that became the cultural capital of the Western world.",
+      "This film traces the key moments: Roman occupation, medieval expansion, Haussmann's radical 19th-century redesign, and the modern challenges of maintaining a historic city. Through visualisations and historical research, we witness how each era left its mark on the city's fabric."
+    ],
+    directors: "Claire Dubois",
+    producers: "Antoine Mercier"
+  },
+  {
+    id: 5,
+    title: "The Forgotten Pioneers of Cinema",
+    subtitle: "A propulsive ode to the visionaries who shaped film before Hollywood existed",
+    category: "Film & Visual Culture",
+    type: "Video",
+    duration: "11 minutes",
+    ytId: "aQKcEz-hWBM",
+    thumb: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&h=530&fit=crop",
+    description: [
+      "Before Hollywood became synonymous with cinema, a diverse group of inventors, artists, and dreamers across the world were experimenting with moving images. Many of their contributions have been forgotten by mainstream film history.",
+      "This animated documentary celebrates these forgotten pioneers: from the shadow puppet masters of Southeast Asia to the magic lantern operators of Europe, from the chronophotographers who captured motion to the first women filmmakers who challenged conventions. Their collective imagination laid the foundation for the most powerful storytelling medium of the modern age."
+    ],
+    directors: "Yuki Tanaka, Amara Osei",
+    producers: "David Park"
+  },
+  {
+    id: 6,
+    title: "The Last Nomads",
+    subtitle: "Why Indigenous communities across the Arctic struggle for recognition in a changing world",
+    category: "Anthropology",
+    type: "Video",
+    duration: "16 minutes",
+    ytId: "iJOIAFnNljU",
+    thumb: "https://images.unsplash.com/photo-1517022812141-23620dba5c23?w=800&h=530&fit=crop",
+    description: [
+      "The Sámi people, Europe's only recognised Indigenous population, have maintained their reindeer herding traditions for thousands of years across the Arctic. Today, their way of life faces unprecedented challenges from climate change, industrialisation, and political marginalisation.",
+      "This film follows several communities as they navigate the intersection of traditional practices and modern politics. From land rights disputes to the impact of warming temperatures on migration routes, the documentary reveals how Indigenous peoples are fighting to maintain their identity in a rapidly changing world."
+    ],
+    directors: "Erik Johansson",
+    producers: "Marit Eira, Lars Thomassen"
+  }
+];
 
-  // Active tab click
-  document.querySelectorAll('nav.tabs a').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelectorAll('nav.tabs a').forEach(x => x.classList.remove('active'));
-      a.classList.add('active');
-    });
-  });
+let heroIdx = 0;
+
+// ─── SVG helpers ───
+function playCircle(s) {
+  return `<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="23" stroke="#fff" stroke-width="2" fill="rgba(0,0,0,.25)"/>
+    <polygon points="19,14 36,24 19,34" fill="#fff"/>
+  </svg>`;
+}
+
+// ─── RENDER HERO ───
+function renderHero() {
+  const v = VIDEOS[heroIdx];
+  document.getElementById('heroImg').src = v.thumb;
+  document.getElementById('heroImg').alt = v.title;
+  document.getElementById('heroTitle').textContent = v.title;
+}
+
+function nextHero() { heroIdx = (heroIdx + 1) % VIDEOS.length; renderHero(); }
+function prevHero() { heroIdx = (heroIdx - 1 + VIDEOS.length) % VIDEOS.length; renderHero(); }
+function openFeatured() { openVideo(VIDEOS[heroIdx].id); }
+
+// ─── RENDER GRID ───
+function renderGrid() {
+  const el = document.getElementById('videoGrid');
+  el.innerHTML = VIDEOS.map((v, i) => `
+    <div class="card fade-in" style="animation-delay:${i * .07}s" onclick="openVideo(${v.id})">
+      <div class="card-thumb">
+        <img src="${v.thumb}" alt="${v.title}" loading="lazy">
+        <div class="card-play">${playCircle(40)}</div>
+      </div>
+      <div class="card-meta"><span>${v.type} / ${v.category}</span></div>
+      <div class="card-title">${v.title}</div>
+      <div class="card-dur">${v.duration}</div>
+    </div>
+  `).join('');
+}
+
+// ─── OPEN VIDEO ───
+function openVideo(id) {
+  const v = VIDEOS.find(x => x.id === id);
+  if (!v) return;
+
+  document.getElementById('homeView').style.display = 'none';
+  const dv = document.getElementById('detailView');
+  dv.style.display = 'block';
+
+  // Reset fade
+  const detail = dv.querySelector('.detail');
+  detail.classList.remove('fade-in');
+  void detail.offsetWidth;
+  detail.classList.add('fade-in');
+
+  document.getElementById('ytPlayer').src =
+    `https://www.youtube.com/embed/${v.ytId}?rel=0&modestbranding=1`;
+
+  document.getElementById('detailTitle').textContent = v.subtitle;
+
+  // Body
+  const bodyHtml = v.description.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('detailBody').innerHTML = bodyHtml;
+
+  document.getElementById('detailCredits').innerHTML = `
+    <div><strong>Directors:</strong> ${v.directors}</div>
+    <div><strong>Producers:</strong> ${v.producers}</div>
+  `;
+
+  // More videos
+  const others = VIDEOS.filter(x => x.id !== v.id).slice(0, 3);
+  document.getElementById('moreGrid').innerHTML = others.map(o => `
+    <div class="card" onclick="openVideo(${o.id})">
+      <div class="card-thumb">
+        <img src="${o.thumb}" alt="${o.title}" loading="lazy">
+        <div class="card-play">${playCircle(36)}</div>
+      </div>
+      <div class="card-meta"><span>${o.type} / ${o.category}</span></div>
+      <div class="card-title" style="font-size:16px">${o.title}</div>
+      <div class="card-dur">${o.duration}</div>
+    </div>
+  `).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SHOW HOME ───
+function showHome() {
+  document.getElementById('ytPlayer').src = '';
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('homeView').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── TABS ───
+function setTab(el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─── INIT ───
+renderHero();
+renderGrid();
 </script>
-
 </body>
 </html>
