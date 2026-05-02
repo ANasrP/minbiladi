@@ -34,21 +34,29 @@
   /* ─── NAV ─── */
   .nav {
     display: flex; align-items: center; justify-content: center;
-    padding: 14px 40px;
+    padding: clamp(10px, 2vw, 14px) clamp(16px, 4vw, 40px);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     position: sticky; top: 0; z-index: 1000;
   }
   .nav-brand {
-    font-family: var(--serif); font-size: 30px; font-weight: 700;
-    color: var(--brand); letter-spacing: .5px; cursor: pointer;
+    display: inline-block;
+    cursor: pointer;
     transition: opacity .3s;
+    line-height: 0;
   }
-  .nav-brand:hover { opacity: .8; }
+  .nav-brand:hover { opacity: .85; }
+  .nav-logo {
+    height: clamp(44px, 9vw, 60px);
+    width: auto;
+    display: block;
+    border-radius: 6px;
+  }
 
   /* ─── HERO ─── */
   .hero {
-    position: relative; width: 100%; height: 540px;
+    position: relative; width: 100%;
+    height: clamp(260px, 55vw, 540px);
     overflow: hidden; background: #111;
   }
   .hero-img {
@@ -62,55 +70,90 @@
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     gap: 10px; cursor: pointer;
+    padding: 0 clamp(48px, 10vw, 80px);
   }
   .hero-tag {
-    font-family: var(--sans); font-size: 13px;
+    font-family: var(--sans);
+    font-size: clamp(10px, 1.2vw, 13px);
     letter-spacing: 4px; text-transform: uppercase;
     color: rgba(255,255,255,.8);
   }
   .hero-title {
-    font-size: 54px; font-weight: 700; color: #fff;
+    font-size: clamp(22px, 5vw, 54px);
+    font-weight: 700; color: #fff;
     text-shadow: 0 2px 24px rgba(0,0,0,.45);
-    text-align: center; line-height: 1.12; max-width: 700px; padding: 0 20px;
+    text-align: center; line-height: 1.12;
+    max-width: 700px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   .hero-play-btn {
     margin-top: 6px; transition: transform .35s;
+  }
+  .hero-play-btn svg {
+    width: clamp(48px, 8vw, 72px);
+    height: clamp(48px, 8vw, 72px);
   }
   .hero:hover .hero-play-btn { transform: scale(1.12); }
 
   .hero-arrow {
     position: absolute; top: 50%; transform: translateY(-50%);
     background: none; border: none; cursor: pointer;
-    opacity: .65; transition: opacity .3s; padding: 10px;
+    opacity: .65; transition: opacity .3s;
+    padding: 10px;
     filter: drop-shadow(0 1px 4px rgba(0,0,0,.5));
   }
   .hero-arrow:hover { opacity: 1; }
-  .hero-arrow.l { left: 18px; }
-  .hero-arrow.r { right: 18px; }
+  .hero-arrow.l { left: clamp(4px, 1.5vw, 18px); }
+  .hero-arrow.r { right: clamp(4px, 1.5vw, 18px); }
+  .hero-arrow svg {
+    width: clamp(26px, 4vw, 36px);
+    height: clamp(26px, 4vw, 36px);
+  }
 
   /* ─── TABS ─── */
-  .tabs-wrap { text-align: center; padding: 36px 24px 0; }
-  .tabs {
-    display: inline-flex; gap: 32px;
-    font-family: var(--sans); font-size: 15px;
+  .tabs-wrap {
+    text-align: center;
+    padding: clamp(24px, 4vw, 36px) clamp(16px, 3vw, 24px) 0;
   }
+  .tabs {
+    display: inline-flex;
+    gap: clamp(16px, 3vw, 32px);
+    font-family: var(--sans);
+    font-size: clamp(13px, 1.4vw, 15px);
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab {
     cursor: pointer; padding-bottom: 6px;
     color: #999; border-bottom: 2px solid transparent;
     transition: all .3s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .tab:hover { color: var(--text); }
   .tab.active { color: var(--text); border-bottom-color: var(--text); }
   .tabs-sub {
-    font-family: var(--sans); font-size: 15px;
-    color: var(--text-muted); margin-top: 14px; line-height: 1.5;
+    font-family: var(--sans);
+    font-size: clamp(13px, 1.4vw, 15px);
+    color: var(--text-muted);
+    margin-top: 14px;
+    line-height: 1.5;
+    padding: 0 clamp(16px, 3vw, 24px);
   }
 
   /* ─── GRID ─── */
   .grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 32px; padding: 36px 40px 64px;
-    max-width: 1220px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 2.5vw, 32px);
+    padding: clamp(24px, 4vw, 36px) clamp(16px, 3vw, 40px) clamp(40px, 6vw, 64px);
+    max-width: 1220px;
+    margin: 0 auto;
   }
   .card { cursor: pointer; transition: transform .3s; }
   .card:hover { transform: translateY(-5px); }
@@ -134,8 +177,11 @@
     color: var(--text-muted); margin-top: 12px; letter-spacing: .3px;
   }
   .card-title {
-    font-size: 19px; font-weight: 600; line-height: 1.35;
+    font-size: clamp(16px, 1.7vw, 19px);
+    font-weight: 600; line-height: 1.35;
     margin-top: 5px; color: var(--text);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   .card-dur {
     font-family: var(--sans); font-size: 13px;
@@ -143,7 +189,11 @@
   }
 
   /* ─── DETAIL ─── */
-  .detail { max-width: 860px; margin: 0 auto; padding: 0 40px 64px; }
+  .detail {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 40px) clamp(40px, 6vw, 64px);
+  }
   .back-btn {
     display: inline-flex; align-items: center; gap: 6px;
     font-family: var(--sans); font-size: 13px;
@@ -166,12 +216,17 @@
   }
 
   .detail-title {
-    font-size: 34px; font-weight: 700; line-height: 1.22;
+    font-size: clamp(22px, 3.4vw, 34px);
+    font-weight: 700; line-height: 1.22;
     margin-top: 26px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   .detail-body {
-    font-family: var(--sans); font-size: 17px;
-    line-height: 1.78; color: #444; margin-top: 18px;
+    font-family: var(--sans);
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.78; color: #444;
+    margin-top: 18px;
   }
   .detail-body p { margin-bottom: 16px; }
 
@@ -187,9 +242,14 @@
     padding-top: 36px; margin-top: 36px;
     border-top: 1px solid var(--border); clear: both;
   }
-  .more-title { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+  .more-title {
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-weight: 600; margin-bottom: 24px;
+  }
   .more-grid {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 24px);
   }
 
   /* ─── FADE ─── */
@@ -208,27 +268,28 @@
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 1024px) {
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 28px; padding: 32px 28px 56px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
     .more-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-title { font-size: 42px; }
   }
-  @media (max-width: 768px) {
-    .nav { padding: 12px 16px; }
-    .nav-brand { font-size: 24px; }
-    .hero { height: 360px; }
-    .hero-title { font-size: 30px; padding: 0 50px; }
-    .hero-tag { font-size: 11px; }
-    .grid { grid-template-columns: 1fr; gap: 28px; padding: 28px 16px 48px; }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
     .more-grid { grid-template-columns: 1fr; }
-    .detail { padding: 0 16px 48px; }
-    .detail-title { font-size: 26px; }
-    .tabs { gap: 20px; font-size: 14px; }
+    .hero-overlay { gap: 6px; }
+    .hero-title { padding: 0 8px; }
   }
-  @media (max-width: 480px) {
-    .hero { height: 280px; }
-    .hero-title { font-size: 24px; }
-    .detail-title { font-size: 22px; }
-    .card-title { font-size: 17px; }
+  @media (max-width: 360px) {
+    .nav { padding: 8px 12px; }
+    .nav-logo { height: 40px; }
+    .tabs { gap: 14px; }
+    .grid { padding: 20px 12px 36px; gap: 18px; }
+    .detail { padding: 0 12px 36px; }
+  }
+  /* Touch devices: disable hover-driven scale on hero (better UX) */
+  @media (hover: none) {
+    .hero:hover .hero-img { transform: none; }
+    .hero:hover .hero-play-btn { transform: none; }
+    .card:hover { transform: none; }
+    .card:hover .card-thumb img { transform: none; }
   }
 </style>
 </head>
@@ -236,7 +297,9 @@
 
 <!-- NAV -->
 <nav class="nav" id="top">
-  <div class="nav-brand" onclick="showHome()">MinBiladi</div>
+  <div class="nav-brand" onclick="showHome()" role="button" aria-label="Ga naar homepagina">
+    <img src="BARIZ_Logo1.png" alt="BARIZ" class="nav-logo">
+  </div>
 </nav>
 
 <!-- HOME VIEW -->
@@ -307,7 +370,7 @@
 <script>
 const VIDEOS = [
   {
-    <! -- Vanaf id tot en met producers, zijn eigenschappen van 1 video! --->
+    // Vanaf id tot en met producers, zijn eigenschappen van 1 video!
     id: 1,
     title: "سعيد الصنهاجي جديد كشكول شعبي 2025 Said Senhaji SaidSenhajiOfficial Jadid Kachkoul Cha3bi",
     subtitle: "سعيد الصنهاجي جديد كشكول شعبي 2025 Said Senhaji - Acheraf Casaoui Jmaatna Zina Jadid Kachkoul Cha3bi",
