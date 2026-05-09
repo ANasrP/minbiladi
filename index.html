@@ -34,10 +34,9 @@
   /* ─── NAV ─── */
   .nav {
     display: flex; align-items: center; justify-content: center;
-    padding: clamp(14px, 2.4vw, 20px) clamp(16px, 4vw, 40px);
+    padding: clamp(18px, 3vw, 28px) clamp(16px, 4vw, 40px);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 1000;
   }
   .nav-brand {
     display: inline-block;
@@ -47,10 +46,10 @@
   }
   .nav-brand:hover { opacity: .85; }
   .nav-logo {
-    height: clamp(52px, 8vw, 72px);
+    height: clamp(72px, 11vw, 110px);
     width: auto;
     display: block;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   /* ─── HERO ─── */
@@ -278,11 +277,11 @@
     .more-grid { grid-template-columns: 1fr; }
     .hero-overlay { gap: 6px; }
     .hero-title { padding: 0 8px; }
-    .nav-logo { height: 56px; }
+    .nav-logo { height: 80px; }
   }
   @media (max-width: 360px) {
-    .nav { padding: 12px 12px; }
-    .nav-logo { height: 48px; }
+    .nav { padding: 14px 12px; }
+    .nav-logo { height: 68px; }
     .tabs { gap: 14px; }
     .grid { padding: 20px 12px 36px; gap: 18px; }
     .detail { padding: 0 12px 36px; }
