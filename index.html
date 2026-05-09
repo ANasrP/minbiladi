@@ -280,9 +280,54 @@
 
   /* ─── FOOTER ─── */
   .footer {
-    text-align: center; padding: 32px 24px;
-    font-family: var(--sans); font-size: 13px;
-    color: #aaa; border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    padding: clamp(32px, 5vw, 48px) clamp(16px, 4vw, 40px) 28px;
+    background: var(--bg);
+    font-family: var(--sans);
+  }
+  .footer-inner {
+    max-width: 1220px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+  .footer-heading {
+    font-family: var(--serif);
+    font-size: clamp(16px, 1.8vw, 19px);
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: .5px;
+  }
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+  .footer-contact a {
+    color: var(--brand);
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .footer-contact a:hover {
+    color: var(--brand-dark);
+    text-decoration: underline;
+  }
+  .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: .5px;
   }
 
   /* ─── RESPONSIVE ─── */
@@ -385,7 +430,18 @@
   </div>
 </div>
 
-<footer class="footer">© 2026 MinBiladi. All rights reserved.</footer>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-heading">Contact</div>
+    <div class="footer-contact">
+      <span>Bariz tv</span>
+      <a href="mailto:Bariztv7@gmail.com">Bariztv7@gmail.com</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">© 2026 MinBiladi. All rights reserved.</div>
+  </div>
+</footer>
 
 <script>
 const VIDEOS = [
