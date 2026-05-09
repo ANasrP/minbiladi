@@ -34,7 +34,7 @@
   /* ─── NAV ─── */
   .nav {
     display: flex; align-items: center; justify-content: center;
-    padding: clamp(10px, 2vw, 14px) clamp(16px, 4vw, 40px);
+    padding: clamp(14px, 2.4vw, 20px) clamp(16px, 4vw, 40px);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     position: sticky; top: 0; z-index: 1000;
@@ -47,10 +47,10 @@
   }
   .nav-brand:hover { opacity: .85; }
   .nav-logo {
-    height: clamp(32px, 5vw, 40px);
+    height: clamp(52px, 8vw, 72px);
     width: auto;
     display: block;
-    border-radius: 5px;
+    border-radius: 6px;
   }
 
   /* ─── HERO ─── */
@@ -276,10 +276,11 @@
     .more-grid { grid-template-columns: 1fr; }
     .hero-overlay { gap: 6px; }
     .hero-title { padding: 0 8px; }
+    .nav-logo { height: 56px; }
   }
   @media (max-width: 360px) {
-    .nav { padding: 8px 12px; }
-    .nav-logo { height: 30px; }
+    .nav { padding: 12px 12px; }
+    .nav-logo { height: 48px; }
     .tabs { gap: 14px; }
     .grid { padding: 20px 12px 36px; gap: 18px; }
     .detail { padding: 0 12px 36px; }
@@ -349,7 +350,7 @@
     </button>
 
     <div class="video-wrap">
-      <iframe id="ytPlayer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="ytPlayer" playsinline allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
 
     <h1 class="detail-title" id="detailTitle"></h1>
@@ -377,7 +378,7 @@ const VIDEOS = [
     category: "Music",
     type: "Video",
     duration: "8 minutes",
-    ytId: "CWGvwpS-5g0?list=RDCWGvwpS-5g0",
+    ytId: "CWGvwpS-5g0",
     thumb: "https://img.youtube.com/vi/CWGvwpS-5g0/maxresdefault.jpg",
     description: [
   "★ قناة نجوم المحمدية مسرار | قناة تمنحك العيش في عالم الفن والفنانين + فن شعبي مغربي - لا تنسوا الإشتراك في القناة والإعجاب بالفيديو%nليصلكم كل جديد. #chaabi #senhaji #cha3bi"
@@ -505,6 +506,20 @@ function renderGrid() {
   `).join('');
 }
 
+// ─── BUILD YOUTUBE EMBED URL ───
+// Strips any stray query string from ytId, then adds parameters.
+// playsinline=1 is critical so iOS Safari plays the video inline
+// instead of redirecting to the YouTube app.
+function buildEmbedUrl(ytId) {
+  const cleanId = String(ytId).split('?')[0].split('&')[0];
+  const params = new URLSearchParams({
+    rel: '0',
+    modestbranding: '1',
+    playsinline: '1'
+  });
+  return `https://www.youtube.com/embed/${cleanId}?${params.toString()}`;
+}
+
 // ─── OPEN VIDEO ───
 function openVideo(id) {
   const v = VIDEOS.find(x => x.id === id);
@@ -520,8 +535,7 @@ function openVideo(id) {
   void detail.offsetWidth;
   detail.classList.add('fade-in');
 
-  document.getElementById('ytPlayer').src =
-    `https://www.youtube.com/embed/${v.ytId}?rel=0&modestbranding=1`;
+  document.getElementById('ytPlayer').src = buildEmbedUrl(v.ytId);
 
   document.getElementById('detailTitle').textContent = v.subtitle;
 
