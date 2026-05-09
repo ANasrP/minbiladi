@@ -401,9 +401,7 @@ const VIDEOS = [
     thumb: "https://img.youtube.com/vi/CWGvwpS-5g0/maxresdefault.jpg",
     description: [
   "★ قناة نجوم المحمدية مسرار | قناة تمنحك العيش في عالم الفن والفنانين + فن شعبي مغربي - لا تنسوا الإشتراك في القناة والإعجاب بالفيديو%nليصلكم كل جديد. #chaabi #senhaji #cha3bi"
-    ],
-    directors: "قناة النجوم مسرار",
-    producers: "YouTube"
+    ]
   },
   {
     id: 2,
@@ -416,10 +414,7 @@ const VIDEOS = [
     thumb: "https://img.youtube.com/vi/LmpuerlbJu0/maxresdefault.jpg",
     description: [
       "You are immune against every disease. Your body is capable of producing a specific weapon against any possible infection — even ones that have never existed and never will. How is this possible?",
-      "Deep inside your bones, millions of cells are randomly rearranging their DNA to create billions of unique antibodies. Most of these cells will never be needed, and many are immediately destroyed. But the few that match a real threat become the heroes of your survival. This is the incredible story of adaptive immunity."
-    ],
-    directors: "Philipp Dettmer",
-    producers: "Kurzgesagt"
+    ]
   }
 ];
 
@@ -563,10 +558,6 @@ function openVideo(id) {
   const bodyHtml = v.description.map(p => `<p>${p}</p>`).join('');
   document.getElementById('detailBody').innerHTML = bodyHtml;
 
-  document.getElementById('detailCredits').innerHTML = `
-    <div><strong>Directors:</strong> ${v.directors}</div>
-    <div><strong>Producers:</strong> ${v.producers}</div>
-  `;
 
   // More videos
   const others = VIDEOS.filter(x => x.id !== v.id).slice(0, 3);
